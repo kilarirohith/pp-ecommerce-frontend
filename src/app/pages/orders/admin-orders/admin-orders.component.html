@@ -1,0 +1,13 @@
+<h2>All Orders (Admin)</h2>
+
+<div *ngFor="let o of orders">
+  <h4>Order #{{ o.id }} - {{ o.createdAt | date:'short' }} - User #{{ o.userId }}</h4>
+  <ul>
+    <li *ngFor="let item of o.items">
+      {{ item.product.name }} - {{ item.quantity }} × {{ item.unitPrice | currency }}
+    </li>
+  </ul>
+  <hr />
+</div>
+
+<p *ngIf="orders.length === 0">No orders yet.</p>

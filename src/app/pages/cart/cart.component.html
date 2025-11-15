@@ -1,0 +1,30 @@
+<h2>Cart</h2>
+
+<table *ngIf="cart.getItems().length > 0" border="1" cellspacing="0" cellpadding="4">
+  <thead>
+    <tr>
+      <th>Name</th><th>Quantity</th><th>Price</th><th>Total</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of cart.getItems()">
+      <td>{{ item.product.name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.product.price | currency }}</td>
+      <td>{{ item.product.price * item.quantity | currency }}</td>
+      <td>
+        <button (click)="removeItem(item.product.id)">Remove</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="cart.getItems().length === 0">No items in cart.</p>
+
+<p *ngIf="cart.getItems().length > 0">
+  Total: {{ cart.getTotal() | currency }}
+</p>
+
+<button (click)="checkout()" *ngIf="cart.getItems().length > 0">
+  Checkout
+</button>

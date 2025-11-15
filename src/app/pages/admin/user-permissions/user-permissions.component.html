@@ -1,0 +1,44 @@
+<div class="permissions-box" *ngIf="permissions">
+
+  <h3>User Permissions</h3>
+
+  <div class="perm-row">
+    <label>Can View Products</label>
+    <input type="checkbox" [(ngModel)]="permissions.canViewProducts" />
+  </div>
+
+  <div class="perm-row">
+    <label>Can Add to Cart</label>
+    <input type="checkbox" [(ngModel)]="permissions.canAddToCart" />
+  </div>
+
+  <div class="perm-row">
+    <label>Can Place Order</label>
+    <input type="checkbox" [(ngModel)]="permissions.canPlaceOrder" />
+  </div>
+
+  <div class="perm-row">
+    <label>Can View Own Orders</label>
+    <input type="checkbox" [(ngModel)]="permissions.canViewOwnOrders" />
+  </div>
+
+  <div class="perm-row">
+    <label>Can View All Orders</label>
+    <input type="checkbox" [(ngModel)]="permissions.canViewAllOrders" />
+  </div>
+
+  <div class="perm-row">
+    <label>Can Manage Products</label>
+    <input type="checkbox" [(ngModel)]="permissions.canManageProducts" />
+  </div>
+
+  <div class="perm-row">
+    <label>Can Manage Users</label>
+    <input type="checkbox" [(ngModel)]="permissions.canManageUsers" />
+  </div>
+
+  <div class="button-row">
+    <button class="save-btn" (click)="save.emit()">Save Changes</button>
+    <button class="cancel-btn" (click)="cancel.emit()">Cancel</button>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+table {
+  width: 100%;
+}
+
+.perm-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
