@@ -18,7 +18,7 @@ interface PaginatedResult<T> {
   providedIn: 'root'
 })
 export class CartService {
-  private apiUrl = `${environment.apiUrl}/cart`;
+  private apiUrl = `${environment.apiUrl}/api/cart`;
 
   constructor(private http: HttpClient) {}
 
