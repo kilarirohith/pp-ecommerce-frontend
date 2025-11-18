@@ -1,0 +1,157 @@
+<div class="admin-users-container">
+  <!-- Header Section -->
+  <div class="admin-header">
+    <div class="header-content">
+      <div class="header-title">
+        <span class="admin-icon">👥</span>
+        <h1>Admin - Users</h1>
+      </div>
+      <p class="header-subtitle">Manage user accounts and permissions</p>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid" *ngIf="users.length">
+    <div class="stat-card">
+      <div class="stat-icon">👤</div>
+      <div class="stat-content">
+        <div class="stat-number">{{ users.length }}</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">👑</div>
+      <div class="stat-content">
+        <div class="stat-number">{{ adminCount }}</div>
+        <div class="stat-label">Admins</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-content">
+        <div class="stat-number">{{ userCount }}</div>
+        <div class="stat-label">Regular Users</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="loading-spinner"></div>
+    <p>Loading users...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadUsers()">Try Again</button>
+  </div>
+
+  <!-- Users Table -->
+  <div *ngIf="!loading && !error && users.length" class="users-table-container">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Permissions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; trackBy: trackByUserId">
+          <td>{{ user.id }}</td>
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <select
+              [value]="user.role"
+              (change)="updateRole(user, $event)"
+              class="role-select">
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </td>
+          <td>
+            <button
+              class="permissions-btn"
+              (click)="openPermissionsModal(user)">
+              Manage Permissions
+            </button>
+          </td>
+          <td>
+            <span class="role-badge" [ngClass]="user.role.toLowerCase()">
+              {{ user.role }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && (!users || users.length === 0)" class="empty-users">
+    <div class="empty-icon">👥</div>
+    <h3>No users found</h3>
+    <p>No user accounts have been registered yet.</p>
+  </div>
+
+  <!-- Permissions Modal -->
+  <div *ngIf="showPermissionsModal" class="modal-overlay" (click)="closePermissionsModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Manage Permissions</h3>
+        <button class="close-btn" (click)="closePermissionsModal()">×</button>
+      </div>
+
+      <div class="modal-body" *ngIf="selectedUser">
+        <p><strong>User:</strong> {{ selectedUser.fullName }} ({{ selectedUser.email }})</p>
+
+        <div class="permissions-list">
+          <div class="permission-item">
+            <label class="permission-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="permissions.canManageProducts"
+                name="canManageProducts" />
+              Can Manage Products
+            </label>
+            <span class="permission-desc">Create, edit, and delete products</span>
+          </div>
+
+          <div class="permission-item">
+            <label class="permission-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="permissions.canViewAdminOrders"
+                name="canViewAdminOrders" />
+              Can View Admin Orders
+            </label>
+            <span class="permission-desc">Access to view all orders in admin panel</span>
+          </div>
+
+          <div class="permission-item">
+            <label class="permission-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="permissions.canManageUsers"
+                name="canManageUsers" />
+              Can Manage Users
+            </label>
+            <span class="permission-desc">Change user roles and permissions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="cancel-btn" (click)="closePermissionsModal()">Cancel</button>
+        <button class="save-btn" (click)="savePermissions()">Save Permissions</button>
+      </div>
+    </div>
+  </div>
+</div>

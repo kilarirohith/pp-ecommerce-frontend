@@ -1,0 +1,46 @@
+<div class="item-card">
+  <div class="item-image">
+    <img *ngIf="item.productImageUrl; else noImage"
+         [src]="item.productImageUrl"
+         [alt]="item.productName"
+         loading="lazy" />
+    <ng-template #noImage>
+      <div class="no-image">
+        <span>📦</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="item-details">
+    <h3 class="item-name">{{ item.productName }}</h3>
+    <p class="item-price">₹{{ item.productPrice }}</p>
+  </div>
+
+  <div class="item-quantity" *ngIf="showQuantityControls">
+    <div class="quantity-controls">
+      <button class="qty-btn" (click)="decrementQuantity()" [disabled]="item.quantity <= 1">
+        <span>−</span>
+      </button>
+      <input type="number"
+             class="qty-input"
+             [ngModel]="item.quantity"
+             (ngModelChange)="onQuantityChange($event)"
+             (blur)="validateQuantity()"
+             min="1"
+             max="99" />
+      <button class="qty-btn" (click)="incrementQuantity()" [disabled]="item.quantity >= 99">
+        <span>+</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="item-total">
+    <p class="line-total">₹{{ item.lineTotal }}</p>
+  </div>
+
+  <div class="item-actions" *ngIf="showRemoveButton">
+    <button class="remove-btn" (click)="onRemove()" title="Remove item">
+      <span>🗑️</span>
+    </button>
+  </div>
+</div>

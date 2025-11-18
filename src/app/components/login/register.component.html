@@ -1,0 +1,55 @@
+<div class="register">
+  <div class="register-container">
+    <h2>Register</h2>
+    <form class="register-form" (ngSubmit)="submit()">
+      <app-form-field
+        label="Full Name"
+        type="text"
+        [(ngModel)]="fullName"
+        placeholder="Enter your full name"
+        name="fullName"
+        [required]="true">
+      </app-form-field>
+
+      <app-form-field
+        label="Email"
+        type="email"
+        [(ngModel)]="email"
+        placeholder="Enter your email"
+        name="email"
+        [required]="true">
+      </app-form-field>
+
+      <app-form-field
+        label="Password"
+        type="password"
+        [(ngModel)]="password"
+        placeholder="Enter your password"
+        name="password"
+        [required]="true">
+      </app-form-field>
+
+      <app-form-field
+        label="Confirm Password"
+        type="password"
+        [(ngModel)]="confirmPassword"
+        placeholder="Confirm your password"
+        name="confirmPassword"
+        [required]="true">
+      </app-form-field>
+
+      <app-button
+        type="submit"
+        [disabled]="loading"
+        class="primary">
+        {{ loading ? 'Registering...' : 'Register' }}
+      </app-button>
+
+      <app-error-message *ngIf="error" [message]="error"></app-error-message>
+    </form>
+
+    <div class="login-link">
+      <p>Already have an account? <a routerLink="/login">Login here</a></p>
+    </div>
+  </div>
+</div>

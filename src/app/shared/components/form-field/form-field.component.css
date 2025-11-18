@@ -1,0 +1,54 @@
+/* Form Field Component Styles */
+
+.form-field-container {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  margin-bottom: 0.5rem;
+}
+
+.required-indicator {
+  color: var(--danger-color);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--gray-300);
+  border-radius: 0.25rem;
+  background-color: var(--white);
+  color: var(--gray-900);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-input:disabled {
+  background-color: var(--gray-100);
+  color: var(--gray-500);
+  cursor: not-allowed;
+}
+
+.form-input::placeholder {
+  color: var(--gray-400);
+}
+
+/* Validation states */
+.form-input.ng-invalid.ng-touched {
+  border-color: var(--danger-color);
+}
+
+.form-input.ng-valid.ng-touched {
+  border-color: var(--success-color);
+}

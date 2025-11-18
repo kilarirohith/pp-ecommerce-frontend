@@ -1,0 +1,22 @@
+<div class="pagination-container" *ngIf="totalPages > 1">
+  <button class="btn btn-outline-secondary page-btn prev-btn"
+          (click)="onPageChange(currentPage - 1)"
+          [disabled]="!hasPreviousPage">
+    <span>⬅️</span> Previous
+  </button>
+
+  <div class="page-numbers">
+    <button class="btn page-btn"
+            *ngFor="let page of getPageNumbers()"
+            (click)="onPageChange(page)"
+            [ngClass]="{'btn-primary': page === currentPage, 'btn-outline-secondary': page !== currentPage}">
+      {{ page }}
+    </button>
+  </div>
+
+  <button class="btn btn-outline-secondary page-btn next-btn"
+          (click)="onPageChange(currentPage + 1)"
+          [disabled]="!hasNextPage">
+    Next <span>➡️</span>
+  </button>
+</div>

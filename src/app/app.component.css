@@ -1,0 +1,294 @@
+/* Small reset */
+* {
+  box-sizing: border-box;
+}
+
+/* Navigation Bar */
+.navbar {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px; /* reduced from 40px */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 70px;
+  flex-wrap: nowrap;          /* ✅ keep single row by default on desktop */
+  column-gap: 16px;
+}
+
+.brand {
+  font-size: 1.6rem;          /* reduced a bit */
+  font-weight: 800;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  flex: 0 0 auto;
+}
+
+.brand:hover {
+  transform: scale(1.02);
+  color: #00d4ff;
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+.brand-icon {
+  font-size: 1.6rem;
+  margin-right: 4px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Center section grows & shrinks to available space */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;                 /* reduced from 35px */
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: center;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 500;          /* slightly lighter */
+  padding: 8px 12px;         /* reduced */
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  font-size: 0.85rem;        /* smaller text */
+  letter-spacing: 0.4px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;       /* prevent multi-line labels */
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 150, 0.1));
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.nav-link:hover::before {
+  opacity: 1;
+}
+
+.nav-link:hover {
+  color: white;
+  transform: translateY(-2px);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.nav-link.router-link-active {
+  background: linear-gradient(135deg, #00d4ff, #ff0096);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.nav-icon {
+  margin-right: 6px;
+  font-size: 1rem;
+}
+
+/* Admin section kept compact */
+.admin-section {
+  display: flex;
+  align-items: center;
+  gap: 14px;                /* reduced */
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  flex: 0 0 auto;
+}
+
+.admin-label {
+  color: #ffd700;
+  font-weight: 600;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.admin-link {
+  color: #e8f4f8;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.admin-link:hover {
+  color: #00d4ff;
+  transform: translateY(-1px);
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+}
+
+/* Right-side auth area */
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 14px;               /* reduced */
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.user-greeting {
+  color: white;
+  font-weight: 500;
+  font-size: 0.8rem;        /* smaller */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+.user-role {
+  color: #ffd700;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(255, 215, 0, 0.2);
+  padding: 1px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+/* Buttons */
+.logout-btn,
+.login-btn,
+.register-btn {
+  padding: 6px 14px;        /* reduced */
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  font-size: 0.8rem;        /* smaller text */
+  letter-spacing: 0.4px;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  line-height: 1.2;
+  min-height: 32px;         /* shorter buttons */
+}
+
+.logout-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.logout-btn:hover::before {
+  left: 100%;
+}
+
+.logout-btn,
+.login-btn,
+.register-btn {
+  background: linear-gradient(135deg, #00d4ff, #ff0096);
+  color: white;
+  box-shadow: 0 3px 10px rgba(0, 212, 255, 0.3);
+}
+
+.logout-btn:hover,
+.login-btn:hover,
+.register-btn:hover {
+  background: linear-gradient(135deg, #00a8cc, #cc007a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 212, 255, 0.4);
+}
+
+/* Container */
+.container {
+  min-height: calc(100vh - 70px);
+  background: #f8f9fa;
+}
+
+/* 🔻 Mobile Responsiveness: allow wrapping on small screens */
+@media (max-width: 992px) {
+  .nav-container {
+    padding: 0 15px;
+    flex-wrap: wrap;       /* allow wrap on smaller screens */
+    row-gap: 8px;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .nav-auth {
+    order: 2;
+    width: auto;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    gap: 8px;
+  }
+
+  .nav-link {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .admin-section {
+    padding: 4px 8px;
+  }
+
+  .logout-btn,
+  .login-btn,
+  .register-btn {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    min-height: 28px;
+  }
+}

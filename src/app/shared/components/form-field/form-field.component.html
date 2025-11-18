@@ -1,0 +1,19 @@
+<div class="form-field-container">
+  <label *ngIf="label" class="form-label" [for]="label">
+    {{ label }}
+    <span *ngIf="required" class="required-indicator">*</span>
+  </label>
+  <input
+    [id]="label"
+    [type]="type"
+    [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="isDisabled"
+    [required]="required"
+    [min]="min"
+    [max]="max"
+    class="form-input"
+    (input)="onInputChange($event)"
+    (blur)="onBlur()"
+  />
+</div>

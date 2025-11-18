@@ -1,0 +1,120 @@
+<div class="admin-products-container">
+  <!-- Header Section -->
+  <div class="admin-header">
+    <div class="header-content">
+      <div class="header-title">
+        <span class="admin-icon">📦</span>
+        <h1>Admin - Products</h1>
+      </div>
+      <p class="header-subtitle">Manage your product inventory</p>
+    </div>
+
+    <button class="create-product-btn" (click)="create()">
+      <span class="btn-icon">➕</span>
+      Create New Product
+    </button>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid" *ngIf="products.length">
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <div class="stat-number">{{ products.length }}</div>
+        <div class="stat-label">Total Products</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <div class="stat-number">₹{{ getTotalValue() }}</div>
+        <div class="stat-label">Total Value</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📈</div>
+      <div class="stat-content">
+        <div class="stat-number">{{ getLowStockCount() }}</div>
+        <div class="stat-label">Low Stock Items</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-content">
+        <div class="stat-number">{{ getInStockCount() }}</div>
+        <div class="stat-label">In Stock</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <app-loading-spinner *ngIf="loading" message="Loading products..."></app-loading-spinner>
+
+  <!-- Error State -->
+  <app-error-message *ngIf="error && !loading" [message]="error" (retry)="loadProducts()"></app-error-message>
+
+  <!-- Products Grid -->
+  <div *ngIf="!loading && !error && products.length" class="products-grid">
+    <div class="product-card" *ngFor="let product of products; trackBy: trackByProductId">
+      <!-- Product Image -->
+      <div class="product-image">
+        <img *ngIf="product.imageUrl; else noImage"
+             [src]="product.imageUrl"
+             [alt]="product.name"
+             loading="lazy" />
+        <ng-template #noImage>
+          <div class="no-image">
+            <span>📦</span>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <div class="product-header">
+          <h3 class="product-name">{{ product.name }}</h3>
+          <span class="product-id">#{{ product.id }}</span>
+        </div>
+
+        <div class="product-details">
+          <div class="detail-item">
+            <span class="detail-label">Price:</span>
+            <span class="detail-value price">₹{{ product.price }}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">Stock:</span>
+            <span class="detail-value stock" [ngClass]="getStockClass(product.stock)">
+              {{ product.stock }} units
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Actions -->
+      <div class="product-actions">
+        <button class="edit-btn" (click)="edit(product.id)">
+          <span class="btn-icon">✏️</span>
+          Edit
+        </button>
+        <button class="delete-btn" (click)="delete(product.id)">
+          <span class="btn-icon">🗑️</span>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <app-empty-state
+    *ngIf="!loading && !error && (!products || products.length === 0)"
+    icon="📦"
+    title="No products found"
+    message="You haven't added any products yet. Start by creating your first product!"
+    actionText="Create Your First Product"
+    (action)="create()">
+  </app-empty-state>
+</div>

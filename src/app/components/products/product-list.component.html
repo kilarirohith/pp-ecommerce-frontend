@@ -1,0 +1,65 @@
+<div class="products-container">
+  <div class="products-header">
+    <h1 class="products-title">Our Products</h1>
+    <p class="products-subtitle">Discover amazing products at great prices</p>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="search-section" *ngIf="!loading && !error">
+    <div class="search-bar">
+      <input type="text"
+             [(ngModel)]="searchTerm"
+             placeholder="Search products by name or description..."
+             class="search-input"
+             (keyup.enter)="searchProducts()">
+      <button class="search-btn" (click)="searchProducts()">
+        <span>🔍</span>
+      </button>
+      <button class="clear-btn" (click)="clearSearch()" *ngIf="searchTerm">
+        <span>❌</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Results Info -->
+  <div class="results-info" *ngIf="!loading && !error && totalCount > 0">
+    <p>Showing {{ products.length }} of {{ totalCount }} products</p>
+  </div>
+
+  <!-- Loading State -->
+  <app-loading-spinner *ngIf="loading" message="Loading products..."></app-loading-spinner>
+
+  <!-- Error State -->
+  <app-error-message *ngIf="error" [message]="error" (retry)="loadProducts()"></app-error-message>
+
+  <!-- Products Grid -->
+  <div *ngIf="!loading && !error" class="products-grid">
+    <app-product-card
+      *ngFor="let p of products"
+      [product]="p"
+      (quickView)="viewProduct($event)"
+      (addToCart)="addToCart($event)">
+    </app-product-card>
+  </div>
+
+  <!-- Pagination -->
+  <app-pagination
+    *ngIf="!loading && !error && totalPages > 1"
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    [hasPreviousPage]="hasPreviousPage"
+    [hasNextPage]="hasNextPage"
+    (pageChange)="goToPage($event)">
+  </app-pagination>
+
+  <!-- Empty State -->
+  <app-empty-state
+    *ngIf="!loading && !error && products.length === 0"
+    icon="🛍️"
+    title="No Products Found"
+    [message]="searchTerm ? 'No products match your search criteria.' : 'We couldn\'t find any products at the moment.'"
+    actionText="Refresh"
+    actionLink=""
+    (actionClick)="loadProducts()">
+  </app-empty-state>
+</div>

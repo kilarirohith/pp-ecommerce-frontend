@@ -1,0 +1,227 @@
+<div class="admin-orders-container">
+  <!-- Header Section -->
+  <div class="admin-header">
+    <div class="header-content">
+      <div class="header-title">
+        <span class="admin-icon">📋</span>
+        <h1>Admin - All Orders</h1>
+      </div>
+      <p class="header-subtitle">Manage and track all customer orders</p>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid" *ngIf="orders.length">
+    <div class="stat-card">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <div class="stat-number">{{ orders.length }}</div>
+        <div class="stat-label">Total Orders </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-content">
+        <div class="stat-number">₹{{ getTotalRevenue() }}</div>
+        <div class="stat-label">Total Revenue </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-content">
+        <div class="stat-number">{{ getPendingOrdersCount() }}</div>
+        <div class="stat-label">Pending Orders</div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-content">
+        <div class="stat-number">{{ getDeliveredOrdersCount() }}</div>
+        <div class="stat-label">Delivered Orders</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="filters-section">
+    <div class="search-bar">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+        placeholder="Search orders by ID, customer, or product..."
+        class="search-input"
+      />
+      <span class="search-icon">🔍</span>
+    </div>
+
+    <div class="status-filters">
+      <button
+        class="filter-btn"
+        [ngClass]="{ 'active': selectedStatus === 'all' }"
+        (click)="filterByStatus('all')">
+        All
+      </button>
+      <button
+        class="filter-btn"
+        [ngClass]="{ 'active': selectedStatus === 'pending' }"
+        (click)="filterByStatus('pending')">
+        Pending
+      </button>
+      <button
+        class="filter-btn"
+        [ngClass]="{ 'active': selectedStatus === 'processing' }"
+        (click)="filterByStatus('processing')">
+        Processing
+      </button>
+      <button
+        class="filter-btn"
+        [ngClass]="{ 'active': selectedStatus === 'shipped' }"
+        (click)="filterByStatus('shipped')">
+        Shipped
+      </button>
+      <button
+        class="filter-btn"
+        [ngClass]="{ 'active': selectedStatus === 'delivered' }"
+        (click)="filterByStatus('delivered')">
+        Delivered
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="loading-spinner"></div>
+    <p>Loading orders...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <div class="error-icon">⚠️</div>
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadOrders()">Try Again</button>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!loading && !error && filteredOrders.length" class="orders-list">
+    <div class="order-card" *ngFor="let order of filteredOrders; trackBy: trackByOrderId">
+      <!-- Order Header -->
+      <div class="order-header">
+        <div class="order-info">
+          <div class="order-number">
+            <span class="order-label">Order #</span>
+            <span class="order-id">{{ order.id }}</span>
+          </div>
+          <div class="order-date">
+            <span class="date-icon">📅</span>
+            {{ order.orderDate | date: 'mediumDate' }}
+          </div>
+        </div>
+
+        <div class="order-status-section">
+          <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+            {{ getStatusText(order.status) }}
+          </span>
+          <select
+            class="status-select"
+            [value]="order.status"
+            (change)="updateOrderStatus(order.id, $event)">
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Order Items -->
+      <div class="order-items">
+        <div class="order-item" *ngFor="let item of order.items">
+          <div class="item-image">
+            <img
+              *ngIf="item.productImageUrl; else noImage"
+              [src]="item.productImageUrl"
+              [alt]="item.productName"
+              loading="lazy" />
+            <ng-template #noImage>
+              <div class="no-image">
+                <span>📦</span>
+              </div>
+            </ng-template>
+          </div>
+
+          <div class="item-details">
+            <h4 class="item-name">{{ item.productName }}</h4>
+            <div class="item-meta">
+              <span class="quantity">Qty: {{ item.quantity }}</span>
+              <span class="unit-price">₹{{ item.unitPrice }} each</span>
+            </div>
+          </div>
+
+          <div class="item-total">
+            <span class="line-total">₹{{ item.lineTotal }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Footer -->
+      <div class="order-footer">
+        <div class="order-summary">
+          <div class="summary-item">
+            <span>Items ({{ order.items.length }})</span>
+            <span>₹{{ order.totalAmount }}</span>
+          </div>
+          <div class="summary-item">
+            <span>Shipping</span>
+            <span class="free-shipping">FREE</span>
+          </div>
+          <div class="summary-item">
+            <span>Tax</span>
+            <span>₹{{ calculateTax(order.totalAmount) }}</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-item total">
+            <span><strong>Total</strong></span>
+            <span class="grand-total">₹{{ calculateGrandTotal(order.totalAmount) }}</span>
+          </div>
+        </div>
+
+        <div class="order-actions">
+          <button class="view-btn" (click)="viewOrderDetails(order.id)">
+            <span>👁️</span>
+            View Details
+          </button>
+          <button class="print-btn" (click)="printOrder(order.id)">
+            <span>🖨️</span>
+            Print
+          </button>
+          <button class="delete-btn" (click)="deleteOrder(order.id)">
+            <span>🗑️</span>
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && (!filteredOrders || filteredOrders.length === 0)" class="empty-orders">
+    <div class="empty-icon">📋</div>
+    <h3>No orders found</h3>
+    <p *ngIf="orders.length === 0">No orders have been placed yet.</p>
+    <p *ngIf="orders.length > 0 && filteredOrders.length === 0">
+      No orders match your current filters.
+    </p>
+    <button
+      class="clear-filters-btn"
+      *ngIf="orders.length > 0 && filteredOrders.length === 0"
+      (click)="clearFilters()">
+      <span>🔄</span>
+      Clear Filters
+    </button>
+  </div>
+</div>

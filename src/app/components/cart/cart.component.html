@@ -1,0 +1,85 @@
+<div class="cart-container">
+  <div class="cart-header">
+    <h1 class="cart-title">
+      <span class="cart-icon">🛒</span>
+      Your Shopping Cart
+    </h1>
+    <p class="cart-subtitle" *ngIf="cart && cart.items.length">
+      {{ cart.items.length }} item{{ cart.items.length !== 1 ? 's' : '' }} in your cart
+    </p>
+  </div>
+
+  <!-- Loading State -->
+  <app-loading-spinner *ngIf="loading" message="Loading your cart..."></app-loading-spinner>
+
+  <!-- Error State -->
+  <app-error-message *ngIf="error" [message]="error" (retry)="loadCart()"></app-error-message>
+
+  <!-- Cart Items -->
+  <div *ngIf="!loading && !error && cart && cart.items.length; else emptyCart" class="cart-content">
+    <div class="cart-items">
+      <app-item-card
+        *ngFor="let item of cart.items; trackBy: trackByItemId"
+        [item]="item"
+        (quantityChange)="updateQuantity($event.itemId, $event.quantity)"
+        (remove)="remove($event)">
+      </app-item-card>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary">
+      <div class="summary-header">
+        <h3>Order Summary</h3>
+      </div>
+
+      <div class="summary-details">
+        <div class="summary-row">
+          <span>Subtotal ({{ cart.items.length }} item{{ cart.items.length !== 1 ? 's' : '' }})</span>
+          <span>₹{{ cart.totalAmount }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span class="free-shipping">FREE</span>
+        </div>
+        <div class="summary-row">
+          <span>Tax</span>
+          <span>₹{{ calculateTax() }}</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row total-row">
+          <span><strong>Total</strong></span>
+          <span class="total-amount">₹{{ calculateGrandTotal() }}</span>
+        </div>
+      </div>
+
+      <div class="summary-actions">
+        <app-button
+          variant="secondary"
+          icon="🗑️"
+          [disabled]="!cart.items.length"
+          (click)="clear()">
+          Clear Cart
+        </app-button>
+        <app-button
+          variant="primary"
+          icon="✅"
+          [disabled]="!cart.items.length"
+          (click)="placeOrder()">
+          Place Order
+        </app-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty Cart -->
+  <ng-template #emptyCart>
+    <app-empty-state
+      *ngIf="!loading && !error"
+      icon="🛒"
+      title="Your cart is empty"
+      message="Add some products to get started!"
+      actionText="Continue Shopping"
+      actionLink="/products">
+    </app-empty-state>
+  </ng-template>
+</div>

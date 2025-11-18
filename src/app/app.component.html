@@ -1,4 +1,71 @@
-<app-navbar></app-navbar>
-<div style="padding: 16px;">
+<nav class="navbar">
+  <div class="nav-container">
+    <a routerLink="/" class="brand">
+      <span class="brand-icon">🛒</span>
+      MyShop
+    </a>
+
+    <div class="nav-links">
+      <a routerLink="/products" class="nav-link">
+        <span class="nav-icon">🛍️</span>
+        Products
+      </a>
+      <a routerLink="/cart" *ngIf="auth.isLoggedIn" class="nav-link">
+        <span class="nav-icon">🛒</span>
+        Cart
+      </a>
+      <a routerLink="/orders" *ngIf="auth.isLoggedIn" class="nav-link">
+        <span class="nav-icon">📄</span>
+        My Orders
+      </a>
+
+      <!-- Admin Links -->
+      <div class="admin-section" *ngIf="auth.role === 'Admin'">
+        <span class="admin-label">Admin</span>
+        <a routerLink="/admin/products" class="nav-link admin-link">
+          <span class="nav-icon">📦</span>
+          Products
+        </a>
+        <a routerLink="/admin/orders" class="nav-link admin-link">
+          <span class="nav-icon">📋</span>
+          Orders
+        </a>
+        <a routerLink="/admin/users" class="nav-link admin-link">
+          <span class="nav-icon">👥</span>
+          Users
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-auth">
+      <ng-container *ngIf="user$ | async as user; else guest">
+        <div class="user-info">
+          <span class="user-greeting">
+            <span class="nav-icon">👤</span>
+            Welcome, {{ user.fullName }}
+          </span>
+          <span class="user-role" *ngIf="auth.role === 'Admin'">({{ user.role }})</span>
+        </div>
+        <button (click)="logout()" class="logout-btn">
+          <span class="nav-icon">🚪</span>
+          <span>Logout</span>
+        </button>
+      </ng-container>
+
+      <ng-template #guest>
+        <a routerLink="/login" class="login-btn">
+          <span class="nav-icon">🔐</span>
+          <span>Login</span>
+        </a>
+        <a routerLink="/register" class="register-btn">
+          <span class="nav-icon">👤</span>
+          <span>Register</span>
+        </a>
+      </ng-template>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
   <router-outlet></router-outlet>
 </div>

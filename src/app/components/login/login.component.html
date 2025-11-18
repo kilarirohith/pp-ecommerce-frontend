@@ -1,0 +1,45 @@
+<div class="login">
+  <div class="login-container">
+    <h2>Login</h2>
+
+    <form class="login-form" (ngSubmit)="submit()">
+      <app-form-field
+        label="Email"
+        type="email"
+        [(ngModel)]="email"
+        placeholder="Enter your email"
+        name="email"
+        [required]="true">
+      </app-form-field>
+
+      <app-form-field
+        label="Password"
+        type="password"
+        [(ngModel)]="password"
+        placeholder="Enter your password"
+        name="password"
+        [required]="true">
+      </app-form-field>
+
+      <app-button
+        type="submit"
+        [disabled]="loading"
+        class="primary">
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </app-button>
+
+      <app-error-message *ngIf="error" [message]="error"></app-error-message>
+    </form>
+
+
+     <div class="forgot-password">
+      <a routerLink="/forgot-password">Forgot password?</a>
+    </div>
+
+    <div class="forgot-password" style="margin-top: 0.75rem;">
+      <a routerLink="/register" class="register-btn">
+        Don't have an account? Register here
+      </a>
+    </div>
+   
+</div>

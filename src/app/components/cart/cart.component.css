@@ -1,0 +1,507 @@
+/* ============================
+   CART PAGE – BASE & BACKGROUND
+   ============================ */
+
+.cart-container {
+  max-width: 1200px;
+  margin: 1.75rem auto 2.5rem;
+  padding: 1.25rem 1.25rem 1.75rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #0f172a;
+  background: radial-gradient(circle at top left, #e0e7ff 0, #f9fafb 42%, #eef2ff 100%);
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.12);
+}
+
+/* ============================
+   HEADER
+   ============================ */
+
+.cart-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.cart-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.cart-icon {
+  font-size: 1.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-subtitle {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ============================
+   LOADING / ERROR (OPTIONAL)
+   ============================ */
+
+.loading-state,
+.error-state {
+  max-width: 600px;
+  margin: 2rem auto;
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.15);
+  text-align: center;
+  backdrop-filter: blur(6px);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #2563eb;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto 0.75rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state p,
+.error-state p {
+  margin: 0;
+  font-size: 0.93rem;
+  color: #4b5563;
+}
+
+/* ============================
+   MAIN LAYOUT
+   ============================ */
+
+.cart-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 340px);
+  gap: 1.75rem;
+  margin-top: 0.75rem;
+  align-items: flex-start;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* ============================
+   ITEM CARD (app-item-card)
+   ============================ */
+
+.cart-items app-item-card {
+  display: block;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+  padding: 0.9rem 1rem;
+  transition: box-shadow 0.14s ease, transform 0.08s ease, border-color 0.12s ease;
+}
+
+.cart-items app-item-card:hover {
+  transform: translateY(-1px);
+  border-color: #4f46e5;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2);
+}
+
+/* If inside app-item-card you use these classes, they’ll look clean */
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.cart-item .item-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-item .item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #ffffff;
+}
+
+.cart-item .item-details {
+  min-width: 0;
+}
+
+.cart-item .item-name {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-item .item-price {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #2563eb;
+}
+
+/* Quantity controls (if used inside card) */
+
+.quantity-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+}
+
+.qty-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid #cbd5f5;
+  background: #eef2ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+    transform 0.08s ease, box-shadow 0.12s ease;
+}
+
+.qty-btn:hover:not(:disabled) {
+  background: #4f46e5;
+  border-color: #4f46e5;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+}
+
+.qty-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.qty-input {
+  width: 44px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.qty-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.35);
+}
+
+/* Total price in row */
+
+.item-total,
+.line-total {
+  text-align: right;
+  font-size: 0.93rem;
+  font-weight: 650;
+  color: #16a34a;
+}
+
+/* ============================
+   ORDER SUMMARY CARD (RIGHT)
+   ============================ */
+
+.cart-summary {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(30, 64, 175, 0.98));
+  border-radius: 14px;
+  border: 1px solid rgba(129, 140, 248, 0.7);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.6);
+  overflow: hidden;
+  position: sticky;
+  top: 1.5rem;
+  color: #e5e7eb;
+}
+
+.summary-header {
+  padding: 1.1rem 1.35rem 0.9rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.summary-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 650;
+  color: #e5e7eb;
+}
+
+.summary-details {
+  padding: 1.1rem 1.35rem 0.4rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  margin-bottom: 0.55rem;
+  color: #cbd5f5;
+}
+
+.summary-row span:first-child {
+  opacity: 0.88;
+}
+
+.summary-row span:last-child {
+  font-weight: 550;
+}
+
+.summary-row:last-child {
+  margin-bottom: 0;
+}
+
+.summary-divider {
+  height: 1px;
+  background: rgba(148, 163, 184, 0.6);
+  margin: 0.9rem 0 0.8rem;
+}
+
+.total-row {
+  font-size: 0.98rem;
+  font-weight: 650;
+  color: #e5e7eb;
+}
+
+.total-amount {
+  font-size: 1.25rem;
+  font-weight: 750;
+  color: #4ade80;
+}
+
+.free-shipping {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+/* ============================
+   SUMMARY BUTTONS (app-button)
+   ============================ */
+
+.summary-actions {
+  padding: 0.9rem 1.35rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+/* Style the app-button host so it looks like a real button */
+.summary-actions app-button {
+  display: block;
+  width: 100%;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.14s ease, opacity 0.15s ease,
+    filter 0.15s ease;
+}
+
+/* Secondary (Clear Cart) – red */
+.summary-actions app-button[variant='secondary'] {
+  background: linear-gradient(135deg, #f97373, #ef4444);
+  color: #fef2f2;
+  box-shadow: 0 4px 14px rgba(248, 113, 113, 0.5);
+}
+
+.summary-actions app-button[variant='secondary']:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 7px 20px rgba(239, 68, 68, 0.75);
+}
+
+/* Primary (Place Order) – green */
+.summary-actions app-button[variant='primary'] {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #ecfdf5;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.55);
+}
+
+.summary-actions app-button[variant='primary']:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.85);
+}
+
+/* Disabled state – when [disabled] is set */
+.summary-actions app-button[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ============================
+   EMPTY CART STATE
+   ============================ */
+
+.empty-cart {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3.2rem 2rem;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+}
+
+.empty-cart-icon {
+  font-size: 3.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.empty-cart h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.6rem;
+  font-weight: 650;
+  color: #0f172a;
+}
+
+.empty-cart p {
+  margin: 0 0 1.6rem;
+  font-size: 0.98rem;
+  color: #6b7280;
+}
+
+/* If you use a custom button in empty state */
+.shop-now-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4f46e5, #2563eb);
+  color: #ffffff;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.6);
+  transition: transform 0.08s ease, box-shadow 0.14s ease, filter 0.12s ease;
+}
+
+.shop-now-btn:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(37, 99, 235, 0.8);
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+
+@media (max-width: 1024px) {
+  .cart-container {
+    margin: 1.25rem auto 2rem;
+    padding: 1rem 1rem 1.5rem;
+    border-radius: 14px;
+  }
+
+  .cart-content {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .cart-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-container {
+    padding: 0.85rem 0.75rem 1.25rem;
+  }
+
+  .cart-title {
+    font-size: 1.7rem;
+  }
+
+  .cart-items app-item-card {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .cart-item {
+    grid-template-columns: 64px 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .item-total,
+  .line-total {
+    grid-column: 2 / -1;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-container {
+    padding: 0.75rem 0.6rem 1.1rem;
+    margin: 1rem auto 1.75rem;
+  }
+
+  .cart-title {
+    font-size: 1.55rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .cart-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .cart-content {
+    gap: 1.1rem;
+  }
+
+  .empty-cart {
+    padding: 2.3rem 1.3rem;
+  }
+
+  .summary-header,
+  .summary-details,
+  .summary-actions {
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+  }
+}

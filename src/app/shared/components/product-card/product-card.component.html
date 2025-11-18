@@ -1,0 +1,47 @@
+<div class="product-card">
+  <div class="product-image-container">
+    <img *ngIf="product.imageUrl; else noImage"
+         [src]="product.imageUrl"
+         [alt]="product.name"
+         class="product-image"
+         loading="lazy" />
+    <ng-template #noImage>
+      <div class="no-image">
+        <span class="no-image-icon">📦</span>
+        <span class="no-image-text">No Image</span>
+      </div>
+    </ng-template>
+    <div *ngIf="showQuickView" class="product-overlay">
+      <button class="quick-view-btn" (click)="onQuickView()">
+        <span>👁️</span> Quick View
+      </button>
+    </div>
+  </div>
+
+  <div class="product-info">
+    <h3 class="product-name">{{ product.name }}</h3>
+    <p class="product-description">{{ (product.description || '') | slice:0:80 }}...</p>
+
+    <div class="product-details">
+      <div class="price-section">
+        <span class="price">₹{{ product.price }}</span>
+        <span class="currency">INR</span>
+      </div>
+      <div class="stock-info" [ngClass]="getStockStatus()">
+        <span class="stock-icon" *ngIf="product.stock === 0">❌</span>
+        <span class="stock-icon" *ngIf="product.stock > 0 && product.stock < 10">⚠️</span>
+        <span class="stock-icon" *ngIf="product.stock >= 10">✅</span>
+        <span class="stock-text">{{ getStockText() }}</span>
+      </div>
+    </div>
+
+    <button *ngIf="showAddToCart"
+            class="btn btn-primary add-to-cart-btn"
+            (click)="onAddToCart()"
+            [disabled]="product.stock === 0"
+            [ngClass]="{'btn-secondary': product.stock === 0}">
+      <span class="cart-icon">🛒</span>
+      {{ product.stock === 0 ? 'Out of Stock' : 'Add to Cart' }}
+    </button>
+  </div>
+</div>

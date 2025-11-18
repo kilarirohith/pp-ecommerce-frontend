@@ -1,0 +1,119 @@
+<div class="orders-container">
+  <div class="orders-header">
+    <h1 class="orders-title">
+      <mat-icon>📋</mat-icon>
+      My Orders
+    </h1>
+    <p class="orders-subtitle" *ngIf="orders && orders.length">
+      You have {{ orders.length }} order{{ orders.length !== 1 ? 's' : '' }}
+    </p>
+  </div>
+
+  <!-- Loading State -->
+  <app-loading-spinner *ngIf="loading" message="Loading your orders..."></app-loading-spinner>
+
+  <!-- Error State -->
+  <app-error-message *ngIf="error && !loading" [message]="error" (retry)="loadOrders()"></app-error-message>
+
+  <!-- Orders List -->
+  <div *ngIf="!loading && !error && orders && orders.length" class="orders-list">
+    <div class="order-card" *ngFor="let order of orders; trackBy: trackByOrderId">
+      <!-- Order Header -->
+      <div class="order-header">
+        <div class="order-info">
+          <div class="order-number">
+            <span class="order-label">Order #</span>
+            <span class="order-id">{{ order.id }}</span>
+          </div>
+          <div class="order-date">
+            <mat-icon>📅</mat-icon>
+            {{ order.orderDate | date:'mediumDate' }}
+          </div>
+        </div>
+
+        <div class="order-status">
+          <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+            {{ getStatusText(order.status) }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Order Items -->
+      <div class="order-items">
+        <div class="order-item" *ngFor="let item of order.items">
+          <div class="item-image">
+            <img *ngIf="item.productImageUrl; else noImage"
+                 [src]="item.productImageUrl"
+                 [alt]="item.productName"
+                 loading="lazy" />
+            <ng-template #noImage>
+              <div class="no-image">
+                <mat-icon>inventory_2</mat-icon>
+              </div>
+            </ng-template>
+          </div>
+
+          <div class="item-details">
+            <h4 class="item-name">{{ item.productName }}</h4>
+            <div class="item-meta">
+              <span class="quantity">Qty: {{ item.quantity }}</span>
+              <span class="price">₹{{ item.unitPrice }} each</span>
+            </div>
+          </div>
+
+          <div class="item-total">
+            <span class="line-total">₹{{ item.lineTotal }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Footer -->
+      <div class="order-footer">
+        <div class="order-summary">
+          <div class="summary-item">
+            <span>Items ({{ order.items.length }})</span>
+            <span>₹{{ order.totalAmount }}</span>
+          </div>
+          <div class="summary-item">
+            <span>Shipping</span>
+            <span class="free-shipping">FREE</span>
+          </div>
+          <div class="summary-item">
+            <span>Tax</span>
+            <span>₹{{ calculateTax(order.totalAmount) }}</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-item total">
+            <span><strong>Total</strong></span>
+            <span class="grand-total">₹{{ calculateGrandTotal(order.totalAmount) }}</span>
+          </div>
+        </div>
+
+        <div class="order-actions">
+          <button class="reorder-btn" (click)="reorder(order)" *ngIf="order.status === 'delivered'">
+            <mat-icon>🔄</mat-icon>
+            Reorder
+          </button>
+          <button class="delete-btn" (click)="deleteOrder(order.id)" *ngIf="order.status !== 'shipped' && order.status !== 'delivered'">
+            <mat-icon>🗑️</mat-icon>
+            Delete Order
+          </button>
+          <button class="track-btn" (click)="trackOrder(order.id)">
+            <mat-icon>📍</mat-icon>
+            Track Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <app-empty-state
+    *ngIf="!loading && !error && (!orders || orders.length === 0)"
+    icon="📦"
+    title="No orders yet"
+    message="You haven't placed any orders. Start shopping to see your orders here!"
+    actionText="Start Shopping"
+    actionLink="/products">
+  </app-empty-state>
+</div>
