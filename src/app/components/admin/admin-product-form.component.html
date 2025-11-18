@@ -14,7 +14,7 @@
       </span>
     </div>
 
-    <!-- Loading & Error -->
+    
     <div *ngIf="loading" class="form-banner loading-banner">
       <span class="spinner"></span>
       <span>Saving product, please wait...</span>
@@ -24,9 +24,9 @@
       ⚠️ {{ error }}
     </div>
 
-    <!-- Form -->
+    
     <form (ngSubmit)="submit()" novalidate>
-      <!-- Name -->
+      
       <div class="form-group">
         <label for="name">Product Name <span class="required">*</span></label>
         <input
@@ -38,7 +38,7 @@
         />
       </div>
 
-      <!-- Description -->
+      
       <div class="form-group">
         <label for="description">Description</label>
         <textarea
@@ -49,7 +49,7 @@
         ></textarea>
       </div>
 
-      <!-- Price & Stock side by side -->
+     
       <div class="form-row">
         <div class="form-group">
           <label for="price">Price (₹) <span class="required">*</span></label>
@@ -79,7 +79,7 @@
         </div>
       </div>
 
-      <!-- Image Upload -->
+     
       <div class="form-group">
         <label>Product Image</label>
         <label class="file-input">
@@ -92,7 +92,7 @@
         <p class="file-hint">Recommended: 800×800px, JPG or PNG, max 2MB.</p>
       </div>
 
-      <!-- Existing Image Preview -->
+      
       <div *ngIf="existingImageUrl" class="existing-image">
         <p>Current Image</p>
         <div class="image-preview-box">
@@ -100,7 +100,7 @@
         </div>
       </div>
 
-      <!-- Actions -->
+     
       <div class="form-actions">
         <button
           type="submit"
@@ -110,17 +110,7 @@
           {{ isEdit ? 'Update Product' : 'Create Product' }}
         </button>
 
-        <!-- Optional cancel button if you have a handler like goBack() -->
-        <!--
-        <button
-          type="button"
-          class="cancel-btn"
-          (click)="goBack()"
-          [disabled]="loading"
-        >
-          Cancel
-        </button>
-        -->
+       
       </div>
     </form>
   </div>

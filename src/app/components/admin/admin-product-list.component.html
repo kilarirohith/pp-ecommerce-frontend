@@ -1,5 +1,5 @@
 <div class="admin-products-container">
-  <!-- Header Section -->
+  
   <div class="admin-header">
     <div class="header-content">
       <div class="header-title">
@@ -15,7 +15,7 @@
     </button>
   </div>
 
-  <!-- Stats Cards -->
+  
   <div class="stats-grid" *ngIf="products.length">
     <div class="stat-card">
       <div class="stat-icon">📊</div>
@@ -50,16 +50,16 @@
     </div>
   </div>
 
-  <!-- Loading State -->
+  
   <app-loading-spinner *ngIf="loading" message="Loading products..."></app-loading-spinner>
 
-  <!-- Error State -->
+
   <app-error-message *ngIf="error && !loading" [message]="error" (retry)="loadProducts()"></app-error-message>
 
-  <!-- Products Grid -->
+ 
   <div *ngIf="!loading && !error && products.length" class="products-grid">
     <div class="product-card" *ngFor="let product of products; trackBy: trackByProductId">
-      <!-- Product Image -->
+      
       <div class="product-image">
         <img *ngIf="product.imageUrl; else noImage"
              [src]="product.imageUrl"

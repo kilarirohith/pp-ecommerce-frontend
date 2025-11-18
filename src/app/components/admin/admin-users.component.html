@@ -1,5 +1,5 @@
 <div class="admin-users-container">
-  <!-- Header Section -->
+  
   <div class="admin-header">
     <div class="header-content">
       <div class="header-title">
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <!-- Stats Cards -->
+  
   <div class="stats-grid" *ngIf="users.length">
     <div class="stat-card">
       <div class="stat-icon">👤</div>
@@ -37,20 +37,20 @@
     </div>
   </div>
 
-  <!-- Loading State -->
+  
   <div *ngIf="loading" class="loading-state">
     <div class="loading-spinner"></div>
     <p>Loading users...</p>
   </div>
 
-  <!-- Error State -->
+  
   <div *ngIf="error && !loading" class="error-state">
     <div class="error-icon">⚠️</div>
     <p>{{ error }}</p>
     <button class="retry-btn" (click)="loadUsers()">Try Again</button>
   </div>
 
-  <!-- Users Table -->
+  
   <div *ngIf="!loading && !error && users.length" class="users-table-container">
     <table class="users-table">
       <thead>
@@ -94,14 +94,14 @@
     </table>
   </div>
 
-  <!-- Empty State -->
+  
   <div *ngIf="!loading && !error && (!users || users.length === 0)" class="empty-users">
     <div class="empty-icon">👥</div>
     <h3>No users found</h3>
     <p>No user accounts have been registered yet.</p>
   </div>
 
-  <!-- Permissions Modal -->
+  
   <div *ngIf="showPermissionsModal" class="modal-overlay" (click)="closePermissionsModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">

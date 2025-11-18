@@ -57,10 +57,10 @@ export class ProductDetailComponent implements OnInit {
 
     this.cartService.addToCart(this.product.id, this.quantity).subscribe({
       next: () => {
-        // Product added successfully, no alert needed
+        
       },
       error: (err) => {
-        // Failed to add to cart - silent error handling
+        
       }
     });
   }

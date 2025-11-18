@@ -9,13 +9,13 @@
     </p>
   </div>
 
-  <!-- Loading State -->
+  
   <app-loading-spinner *ngIf="loading" message="Loading your cart..."></app-loading-spinner>
 
-  <!-- Error State -->
+  
   <app-error-message *ngIf="error" [message]="error" (retry)="loadCart()"></app-error-message>
 
-  <!-- Cart Items -->
+  
   <div *ngIf="!loading && !error && cart && cart.items.length; else emptyCart" class="cart-content">
     <div class="cart-items">
       <app-item-card
@@ -26,7 +26,7 @@
       </app-item-card>
     </div>
 
-    <!-- Cart Summary -->
+    
     <div class="cart-summary">
       <div class="summary-header">
         <h3>Order Summary</h3>

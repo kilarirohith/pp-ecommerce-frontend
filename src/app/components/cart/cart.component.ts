@@ -48,9 +48,9 @@ export class CartComponent implements OnInit {
     this.error = '';
     this.cartService.getCart('', page, 10).subscribe({
       next: res => {
-        // Transform paginated result to Cart format
+        
         this.cart = {
-          id: 0, // Will be set from first item if exists
+          id: 0, 
           items: res.items.map(item => ({
             id: item.id,
             productId: item.productId,

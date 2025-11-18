@@ -1,5 +1,5 @@
 <div class="admin-orders-container">
-  <!-- Header Section -->
+ 
   <div class="admin-header">
     <div class="header-content">
       <div class="header-title">
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <!-- Stats Cards -->
+  
   <div class="stats-grid" *ngIf="orders.length">
     <div class="stat-card">
       <div class="stat-icon">📊</div>
@@ -45,7 +45,7 @@
     </div>
   </div>
 
-  <!-- Filters and Search -->
+  
   <div class="filters-section">
     <div class="search-bar">
       <input
@@ -92,23 +92,23 @@
     </div>
   </div>
 
-  <!-- Loading State -->
+  
   <div *ngIf="loading" class="loading-state">
     <div class="loading-spinner"></div>
     <p>Loading orders...</p>
   </div>
 
-  <!-- Error State -->
+  
   <div *ngIf="error && !loading" class="error-state">
     <div class="error-icon">⚠️</div>
     <p>{{ error }}</p>
     <button class="retry-btn" (click)="loadOrders()">Try Again</button>
   </div>
 
-  <!-- Orders List -->
+  
   <div *ngIf="!loading && !error && filteredOrders.length" class="orders-list">
     <div class="order-card" *ngFor="let order of filteredOrders; trackBy: trackByOrderId">
-      <!-- Order Header -->
+     
       <div class="order-header">
         <div class="order-info">
           <div class="order-number">
@@ -138,7 +138,7 @@
         </div>
       </div>
 
-      <!-- Order Items -->
+      
       <div class="order-items">
         <div class="order-item" *ngFor="let item of order.items">
           <div class="item-image">
@@ -168,7 +168,7 @@
         </div>
       </div>
 
-      <!-- Order Footer -->
+      
       <div class="order-footer">
         <div class="order-summary">
           <div class="summary-item">
@@ -208,7 +208,7 @@
     </div>
   </div>
 
-  <!-- Empty State -->
+  
   <div *ngIf="!loading && !error && (!filteredOrders || filteredOrders.length === 0)" class="empty-orders">
     <div class="empty-icon">📋</div>
     <h3>No orders found</h3>

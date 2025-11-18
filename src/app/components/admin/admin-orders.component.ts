@@ -30,11 +30,11 @@ export class AdminOrdersComponent implements OnInit {
     this.loading = true;
     this.error = '';
 
-    // ✅ Pass searchTerm to backend so LINQ search runs on the server
+    
     this.orderService.getAdminOrders(this.searchTerm, page, 10).subscribe({
       next: res => {
-        this.orders = res.items;   // res is PaginatedResult<Order>
-        this.applyFilters();       // apply status filter on client
+        this.orders = res.items;   
+        this.applyFilters();      
         this.loading = false;
       },
       error: (err) => {
@@ -45,22 +45,20 @@ export class AdminOrdersComponent implements OnInit {
     });
   }
 
-  // Called when user types in the search input
+  
   onSearchChange(): void {
-    this.loadOrders(1);  // reload from API using current searchTerm
+    this.loadOrders(1);  
   }
 
   applyFilters(): void {
     let filtered = this.orders;
 
-    // Filter by status (client-side)
+    
     if (this.selectedStatus !== 'all') {
       filtered = filtered.filter(order => order.status.toLowerCase() === this.selectedStatus);
     }
 
-    // ⛔️ IMPORTANT: Do NOT filter by search term here,
-    // because backend already applied search via LINQ.
-    // We keep only status filtering on the client.
+    
 
     this.filteredOrders = filtered;
   }
@@ -73,7 +71,7 @@ export class AdminOrdersComponent implements OnInit {
   clearFilters(): void {
     this.searchTerm = '';
     this.selectedStatus = 'all';
-    this.loadOrders(1); // reload all orders from backend
+    this.loadOrders(1); 
   }
 
   trackByOrderId(index: number, order: Order): number {
@@ -102,10 +100,10 @@ export class AdminOrdersComponent implements OnInit {
 
   updateOrderStatus(orderId: number, event: any): void {
     const newStatus = event.target.value;
-    // Here you would typically call a service to update the order status in the backend
+    
     console.log(`Updating order ${orderId} to status: ${newStatus}`);
 
-    // For now, just update the local array
+    
     const order = this.orders.find(o => o.id === orderId);
     if (order) {
       order.status = newStatus;
@@ -122,14 +120,14 @@ export class AdminOrdersComponent implements OnInit {
         },
         error: (err) => {
           console.error('Delete order error:', err);
-          // Failed to delete order - silent error handling
+          
         }
       });
     }
   }
 
   calculateTax(amount: number): number {
-    return Math.round(amount * 0.18); // 18% GST
+    return Math.round(amount * 0.18); 
   }
 
   calculateGrandTotal(amount: number): number {
@@ -138,12 +136,12 @@ export class AdminOrdersComponent implements OnInit {
 
   viewOrderDetails(orderId: number): void {
     console.log(`Viewing details for order ${orderId}`);
-    // Navigate to order details page or open modal
+    
   }
 
   printOrder(orderId: number): void {
     console.log(`Printing order ${orderId}`);
-    // Implement print functionality
+    
     window.print();
   }
 }
